@@ -1,21 +1,21 @@
 import { defineStore } from 'pinia'
 import weatherAPI from '@/services/weatherApi'
 
-export const useWeatherStore = defineStore('weather', {
+export const useWeatherStore = defineStore('weather', {      // 建立一個Pinia store，名稱叫'weather'
   state: () => ({
-    currentWeather: null,
-    forecast: null,
-    loading: false,
-    error: null,
-    lastUpdated: null
+    currentWeather: null,          //存放「當前天氣」的資料物件
+    forecast: null,                //存放「天氣預報」的資料物件
+    loading: false,                //是否正在載入資料
+    error: null,                   //用來存放錯誤訊息
+    lastUpdated: null              //記錄最後一次資料更新的時間
   }),
 
-  getters: {
-    hasWeatherData: (state) => !!state.currentWeather,
-    isLoading: (state) => state.loading,
-    getError: (state) => state.error,
-    getCurrentTemp: (state) => state.currentWeather?.temperature,
-    getCityName: (state) => state.currentWeather?.city
+  getters: {                        //定義 getters，類似 Vue的computed，用來根據 state 算出衍生資料
+    hasWeatherData: (state) => !!state.currentWeather,                 // 是否有當前天氣資料
+    isLoading: (state) => state.loading,                               // 是否正在載入資料
+    getError: (state) => state.error,                                  // 獲取錯誤訊息
+    getCurrentTemp: (state) => state.currentWeather?.temperature,      // 獲取當前溫度
+    getCityName: (state) => state.currentWeather?.city                 // 獲取當前城市名稱
   },
 
   actions: {
