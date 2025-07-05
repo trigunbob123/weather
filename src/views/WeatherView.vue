@@ -66,7 +66,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted } from 'vue'
 import { useWeatherStore } from '@/stores/weather'
 import { useFavoritesStore } from '@/stores/favorites'
@@ -81,57 +81,35 @@ import HistoryList from '@/components/weather/HistoryList.vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import ErrorMessage from '@/components/common/ErrorMessage.vue'
 
-export default {
-  name: 'WeatherView',
-  components: {
-    SearchInput,
-    WeatherCard,
-    ForecastCard,
-    WeatherDetails,
-    FavoritesList,
-    HistoryList,
-    LoadingSpinner,
-    ErrorMessage
-  },
-  setup() {
-    const weatherStore = useWeatherStore()
-    const favoritesStore = useFavoritesStore()
-    const historyStore = useHistoryStore()
+// Stores
+const weatherStore = useWeatherStore()
+const favoritesStore = useFavoritesStore()
+const historyStore = useHistoryStore()
 
-    const currentWeather = computed(() => weatherStore.currentWeather)
-    const forecast = computed(() => weatherStore.forecast)
-    const loading = computed(() => weatherStore.isLoading)
-    const error = computed(() => weatherStore.getError)
-    const favorites = computed(() => favoritesStore.getFavorites)
-    const recentSearches = computed(() => historyStore.recentSearches)
+// Computed
+const currentWeather = computed(() => weatherStore.currentWeather)
+const forecast = computed(() => weatherStore.forecast)
+const loading = computed(() => weatherStore.isLoading)
+const error = computed(() => weatherStore.getError)
+const favorites = computed(() => favoritesStore.getFavorites)
+const recentSearches = computed(() => historyStore.recentSearches)
 
-    const handleRetry = () => {
-      if (currentWeather.value) {
-        weatherStore.refreshWeather()
-      }
-    }
-
-    const clearError = () => {
-      weatherStore.clearError()
-    }
-
-    onMounted(() => {
-      favoritesStore.loadFavorites()
-      historyStore.loadHistory()
-    })
-
-    return {
-      currentWeather,
-      forecast,
-      loading,
-      error,
-      favorites,
-      recentSearches,
-      handleRetry,
-      clearError
-    }
+// Methods
+const handleRetry = () => {
+  if (currentWeather.value) {
+    weatherStore.refreshWeather()
   }
 }
+
+const clearError = () => {
+  weatherStore.clearError()
+}
+
+// Lifecycle
+onMounted(() => {
+  favoritesStore.loadFavorites()
+  historyStore.loadHistory()
+})
 </script>
 
 <style scoped>

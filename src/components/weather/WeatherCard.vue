@@ -55,45 +55,38 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
 import { useFavoritesStore } from '@/stores/favorites'
 import { formatDate } from '@/utils/dateUtils'
 
-export default {
-  name: 'WeatherCard',
-  props: {
-    weather: {
-      type: Object,
-      required: true
-    }
-  },
-  setup(props) {
-    const favoritesStore = useFavoritesStore()
-
-    const isFavorite = computed(() => 
-      favoritesStore.isFavorite(props.weather.city)
-    )
-
-    const toggleFavorite = () => {
-      favoritesStore.toggleFavorite(props.weather)
-    }
-
-    const getWeatherIcon = (iconCode) => {
-      return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
-    }
-
-    const formatVisibility = (visibility) => {
-      return `${(visibility / 1000).toFixed(1)} km`
-    }
-
-    return {
-      isFavorite,
-      toggleFavorite,
-      getWeatherIcon,
-      formatVisibility,
-      formatDate
-    }
+// Props 定義 (JavaScript 版本)
+const props = defineProps({
+  weather: {
+    type: Object,
+    required: true
   }
+})
+
+// Stores
+const favoritesStore = useFavoritesStore()
+
+// Computed
+const isFavorite = computed(() => 
+  favoritesStore.isFavorite(props.weather.city)
+)
+
+// Methods
+const toggleFavorite = () => {
+  favoritesStore.toggleFavorite(props.weather)
+}
+
+const getWeatherIcon = (iconCode) => {
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+}
+
+const formatVisibility = (visibility) => {
+  return `${(visibility / 1000).toFixed(1)} km`
 }
 </script>
 

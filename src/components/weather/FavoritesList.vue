@@ -35,33 +35,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useFavoritesStore } from '@/stores/favorites'
 import { useWeatherStore } from '@/stores/weather'
 
-export default {
-  name: 'FavoritesList',
-  setup() {
-    const favoritesStore = useFavoritesStore()
-    const weatherStore = useWeatherStore()
+// Stores
+const favoritesStore = useFavoritesStore()
+const weatherStore = useWeatherStore()
 
-    const favorites = computed(() => favoritesStore.getFavorites)
+// Computed
+const favorites = computed(() => favoritesStore.getFavorites)
 
-    const selectFavorite = async (favorite) => {
-      await weatherStore.fetchWeatherByCity(favorite.name)
-    }
+// Methods
+const selectFavorite = async (favorite) => {
+  await weatherStore.fetchWeatherByCity(favorite.name)
+}
 
-    const removeFavorite = (favorite) => {
-      favoritesStore.removeFavorite(favorite.name)
-    }
-
-    return {
-      favorites,
-      selectFavorite,
-      removeFavorite
-    }
-  }
+const removeFavorite = (favorite) => {
+  favoritesStore.removeFavorite(favorite.name)
 }
 </script>
 

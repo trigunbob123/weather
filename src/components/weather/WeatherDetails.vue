@@ -66,30 +66,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { formatTime, getTimeAgo } from '@/utils/dateUtils'
 
-export default {
-  name: 'WeatherDetails',
-  props: {
-    weather: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    formatTime,
-    getTimeAgo,
-    getWindDirection(degrees) {
-      const directions = [
-        '北', '北北東', '東北', '東北東', '東', '東南東', 
-        '東南', '南南東', '南', '南南西', '西南', '西南西', 
-        '西', '西北西', '西北', '北北西'
-      ]
-      const index = Math.round(degrees / 22.5) % 16
-      return directions[index]
-    }
+// Props 定義 (JavaScript 版本)
+const props = defineProps({
+  weather: {
+    type: Object,
+    required: true
   }
+})
+
+// Methods
+const getWindDirection = (degrees) => {
+  const directions = [
+    '北', '北北東', '東北', '東北東', '東', '東南東', 
+    '東南', '南南東', '南', '南南西', '西南', '西南西', 
+    '西', '西北西', '西北', '北北西'
+  ]
+  const index = Math.round(degrees / 22.5) % 16
+  return directions[index]
 }
 </script>
 
