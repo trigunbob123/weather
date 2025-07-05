@@ -38,18 +38,19 @@
 <script setup>
 import { computed } from 'vue'
 import { useFavoritesStore } from '@/stores/favorites'
-import { useWeatherStore } from '@/stores/weather'
+
+// 定義 emits
+const emit = defineEmits(['city-selected'])
 
 // Stores
 const favoritesStore = useFavoritesStore()
-const weatherStore = useWeatherStore()
 
 // Computed
 const favorites = computed(() => favoritesStore.getFavorites)
 
 // Methods
-const selectFavorite = async (favorite) => {
-  await weatherStore.fetchWeatherByCity(favorite.name)
+const selectFavorite = (favorite) => {
+  emit('city-selected', favorite.name)
 }
 
 const removeFavorite = (favorite) => {
