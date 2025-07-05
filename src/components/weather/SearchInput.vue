@@ -77,14 +77,15 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useWeatherStore } from '@/stores/weather'
 import { useHistoryStore } from '@/stores/history'
 import { useLocationStore } from '@/stores/location'
 import weatherAPI from '@/services/weatherApi'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 
+// 定義 emits
+const emit = defineEmits(['weather-searched'])
+
 // Stores
-const weatherStore = useWeatherStore()
 const historyStore = useHistoryStore()
 const locationStore = useLocationStore()
 
@@ -188,11 +189,9 @@ const handleSearch = async () => {
 
   loading.value = true
   try {
-    await weatherStore.fetchWeatherByCity(city)
-    if (weatherStore.currentWeather) {
-      historyStore.addToHistory(city)
-      showSuggestions.value = false
-    }
+    // 觸發父組件的搜尋事件
+    emit('weather-searched', city)
+    showSuggestions.value = false
   } catch (error) {
     console.error('Search error:', error)
   } finally {
@@ -204,7 +203,13 @@ const getCurrentLocation = async () => {
   const success = await locationStore.getCurrentLocation()
   if (success && locationStore.userLocation) {
     const { lat, lon } = locationStore.userLocation
-    await weatherStore.fetchWeatherByCoords(lat, lon)
+    try {
+      const weather = await weatherAPI.getCurrentWeatherByCoords(lat, lon)
+      searchQuery.value = weather.city
+      emit('weather-searched', weather.city)
+    } catch (error) {
+      console.error('Location weather error:', error)
+    }
   }
 }
 
@@ -227,11 +232,14 @@ const handleBlur = () => {
   border-right: none;
   font-size: 1.1rem;
   padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .search-input:focus {
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
   border-color: #3498db;
+  background: white;
 }
 
 .suggestions-dropdown {
@@ -281,5 +289,25 @@ const handleBlur = () => {
 
 .btn-group .btn:last-child {
   border-radius: 0 8px 8px 0;
+}
+
+.btn-primary {
+  background: rgba(52, 152, 219, 0.9);
+  border-color: #3498db;
+}
+
+.btn-primary:hover {
+  background: #3498db;
+}
+
+.btn-outline-secondary {
+  background: rgba(108, 117, 125, 0.1);
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background: #6c757d;
+  color: white;
 }
 </style>

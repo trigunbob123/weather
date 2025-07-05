@@ -21,7 +21,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;         /*字體*/
-  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);    /*背景漸變*/
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);    /*背景漸變*/
   min-height: 100vh;                                                    /*最小高度*/
   color: var(--text-dark);                                              /*文字顏色*/
 }
@@ -36,11 +36,13 @@ body {
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   transition: var(--transition);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .btn {
@@ -57,6 +59,18 @@ body {
 .btn-primary:hover {                      /*主按鈕懸停樣式*/
   background-color: #2980b9;
   border-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-outline-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.7);
+  color: white;
 }
 
 .loading-spinner {                        /*載入動畫*/
@@ -80,4 +94,84 @@ body {
 
 .fade-enter-from, .fade-leave-to {           /*淡入開始和淡出結束狀態*/
   opacity: 0;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .weather-view {
+    padding: 20px 0;
+  }
+  
+  .display-4 {
+    font-size: 2.5rem;
+  }
+  
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* 美化滾動條 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 毛玻璃效果增強 */
+.weather-column {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+}
+
+/* 文字陰影增強 */
+.text-white {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 輸入框增強效果 */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+  transform: translateY(-1px);
+}
+
+/* 動畫效果 */
+.weather-card, .forecast-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 懸停效果增強 */
+.favorite-item:hover,
+.history-item:hover,
+.suggestion-item:hover {
+  transform: translateX(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
