@@ -41,40 +41,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useHistoryStore } from '@/stores/history'
 import { useWeatherStore } from '@/stores/weather'
 import { getTimeAgo } from '@/utils/dateUtils'
 
-export default {
-  name: 'HistoryList',
-  setup() {
-    const historyStore = useHistoryStore()
-    const weatherStore = useWeatherStore()
+// Stores
+const historyStore = useHistoryStore()
+const weatherStore = useWeatherStore()
 
-    const history = computed(() => historyStore.getHistory)
+// Computed
+const history = computed(() => historyStore.getHistory)
 
-    const selectHistory = async (item) => {
-      await weatherStore.fetchWeatherByCity(item.name)
-    }
+// Methods
+const selectHistory = async (item) => {
+  await weatherStore.fetchWeatherByCity(item.name)
+}
 
-    const removeHistory = (item) => {
-      historyStore.removeFromHistory(item.name)
-    }
+const removeHistory = (item) => {
+  historyStore.removeFromHistory(item.name)
+}
 
-    const clearAllHistory = () => {
-      historyStore.clearHistory()
-    }
-
-    return {
-      history,
-      selectHistory,
-      removeHistory,
-      clearAllHistory,
-      getTimeAgo
-    }
-  }
+const clearAllHistory = () => {
+  historyStore.clearHistory()
 }
 </script>
 

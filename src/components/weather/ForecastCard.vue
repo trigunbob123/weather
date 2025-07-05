@@ -27,27 +27,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { formatShortDate, isToday, isTomorrow } from '@/utils/dateUtils'
 
-export default {
-  name: 'ForecastCard',
-  props: {
-    forecast: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    formatDay(date) {
-      if (isToday(date)) return '今天'
-      if (isTomorrow(date)) return '明天'
-      return formatShortDate(date)
-    },
-    getWeatherIcon(iconCode) {
-      return `https://openweathermap.org/img/wn/${iconCode}.png`
-    }
+// Props 定義 (JavaScript 版本)
+const props = defineProps({
+  forecast: {
+    type: Object,
+    required: true
   }
+})
+
+// Methods
+const formatDay = (date) => {
+  if (isToday(date)) return '今天'
+  if (isTomorrow(date)) return '明天'
+  return formatShortDate(date)
+}
+
+const getWeatherIcon = (iconCode) => {
+  return `https://openweathermap.org/img/wn/${iconCode}.png`
 }
 </script>
 
